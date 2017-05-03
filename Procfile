@@ -1,1 +1,1 @@
-web: ls -al build
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar build/libs/ddul-scheduler-0.0.1-SNAPSHOT.jar
