@@ -1,1 +1,1 @@
-web: ls -al build/install
+web: ls -al build
