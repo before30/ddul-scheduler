@@ -1,1 +1,1 @@
-web: build/install/ddul-scheduler/bin/ddul-scheduler
+web: `ls -al build/install/ddul-scheduler/bin`
