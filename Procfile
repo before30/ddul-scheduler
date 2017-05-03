@@ -1,1 +1,1 @@
-web: build/install/scheduler/bin/scheduler
+web: build/install/ddul-scheduler/bin/ddul-scheduler
