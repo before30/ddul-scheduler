@@ -44,6 +44,7 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-task stage(dependsOn: ['build', 'clean'])
+task stage(dependsOn: ['build', 'clean', 'installDist'])
 build.mustRunAfter clean
+installDist.mustRunAfter build
 
