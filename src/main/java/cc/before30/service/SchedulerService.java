@@ -1,7 +1,9 @@
 package cc.before30.service;
 
+import cc.before30.config.DdulProperties;
 import com.github.seratch.jslack.Slack;
 import com.github.seratch.jslack.api.webhook.Payload;
+import com.github.seratch.jslack.api.webhook.WebhookResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,14 +25,8 @@ public class SchedulerService {
     @Autowired
     private Slack slack;
 
-    @Value("${slack.webhook.url}")
-    private String webhookUrl;
-
-    @Value("${slack.channel.name}")
-    private String channelName;
-
-    @Value("${ddulscheduler.url}")
-    private String ddulSchedulerUrl;
+    @Autowired
+    private DdulProperties ddulProperties;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -43,13 +39,15 @@ public class SchedulerService {
         hour = (hour-1)>0?(hour-1)%24:23;
 
         Payload payload = Payload.builder()
-                .channel(channelName)
+                .channel(ddulProperties.getSlackChannelName())
                 .username("coach")
                 .iconEmoji(":smile_cat:")
                 .text("[" + hour + ":00-" + hour + ":59]: What did you do?" )
                 .build();
         try {
-            slack.send(webhookUrl,payload);
+            WebhookResponse send = slack.send(ddulProperties.getSlackWebhookUrl(), payload);
+            log.info("{}", ddulProperties.getSlackWebhookUrl());
+            log.info("response {} {}", send.getCode(), send.getBody());
         } catch (IOException e) {
             log.error("exception in sending message", e.getMessage());
         }
@@ -58,7 +56,7 @@ public class SchedulerService {
 
     @Scheduled(cron = "0 * 8-23 * * *", zone = "Asia/Seoul")
     public void requestToDdulSchedulerInHeroku() {
-        ResponseEntity<String> response = restTemplate.getForEntity(ddulSchedulerUrl, String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(ddulProperties.getServiceUrl(), String.class);
         log.info("response {} ", response.getBody());
     }
 

@@ -33,6 +33,8 @@ dependencies {
 //	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 //	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('com.squareup.kohttp3:okhttp:3.4.1')
+	compile('com.fasterxml.jackson.core:jackson-databind:2.7.5')
 
 	compile 'com.github.seratch:jslack:1.0.8'
 
