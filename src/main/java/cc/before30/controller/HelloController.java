@@ -24,11 +24,4 @@ public class HelloController {
 
         return "hello2";
     }
-
-    @GetMapping("/hello3")
-    public String hello3() {
-        schedulerService.requestToDdulSchedulerInHeroku();
-
-        return "hello3";
-    }
 }

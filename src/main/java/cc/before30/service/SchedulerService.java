@@ -6,8 +6,6 @@ import com.github.seratch.jslack.api.webhook.Payload;
 import com.github.seratch.jslack.api.webhook.WebhookResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -31,7 +29,7 @@ public class SchedulerService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Scheduled(cron = "0 1 0,9-23 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 1 0,7-23 * * *", zone = "Asia/Seoul")
     public void requestToWriteWhatDidUDo() {
         int hour = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).getHour();
         log.info("current hour : {}", hour);
@@ -42,7 +40,7 @@ public class SchedulerService {
                 .channel(ddulProperties.getSlackChannelName())
                 .username("coach")
                 .iconEmoji(":smile_cat:")
-                .text("[" + hour + ":00-" + hour + ":59]: What did you do?" )
+                .text("[" + hour + ":00-" + hour + ":59]: What did you do??" )
                 .build();
         try {
             WebhookResponse send = slack.send(ddulProperties.getSlackWebhookUrl(), payload);
@@ -52,12 +50,6 @@ public class SchedulerService {
             log.error("exception in sending message", e.getMessage());
         }
 
-    }
-
-    @Scheduled(cron = "0 * 8-23 * * *", zone = "Asia/Seoul")
-    public void requestToDdulSchedulerInHeroku() {
-        ResponseEntity<String> response = restTemplate.getForEntity(ddulProperties.getServiceUrl(), String.class);
-        log.info("response {} ", response.getBody());
     }
 
 }

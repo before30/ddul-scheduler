@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
 import java.util.Optional;
 
 /**
@@ -17,18 +18,14 @@ import java.util.Optional;
 @Slf4j
 public class RestTemplateConfiguration {
 
-    @Autowired
-    private RestTemplateProperties properties;
 
     @Bean
     public RestTemplate restTemplate() {
-
-        log.info("ct : {}, rt : {}", properties.getConnectionTimeout(), properties.getReadTimeout());
         RestTemplateBuilder builder = new RestTemplateBuilder();
+
         return builder
-                .setConnectTimeout(Optional.ofNullable(properties.getConnectionTimeout()).orElse(3000))
-                .setReadTimeout(Optional.ofNullable(properties.getReadTimeout()).orElse(5000))
-                .requestFactory(new OkHttp3ClientHttpRequestFactory())
+                .setConnectTimeout(Duration.ofMillis(30000))
+                .setReadTimeout(Duration.ofMillis(50000))
                 .build();
     }
 
