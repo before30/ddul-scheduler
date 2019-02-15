@@ -1,4 +1,5 @@
-FROM java:8-jre-alpine
+FROM resin/raspberry-pi-openjdk
+#FROM java:8-jre-alpine
 ARG JAR_FILE
 ENV JAR_FILE=${JAR_FILE}
 COPY ${JAR_FILE} .
