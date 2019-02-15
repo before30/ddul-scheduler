@@ -29,7 +29,7 @@ public class SchedulerService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Scheduled(cron = "0 1 0,7-23 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 1 7-23 * * *", zone = "Asia/Seoul")
     public void requestToWriteWhatDidUDo() {
         int hour = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).getHour();
         log.info("current hour : {}", hour);
